@@ -13,19 +13,19 @@ const con = mysql.createConnection({
     database: 'sms26dec24'
 });
 
-app.post("/ss",(req,res)=>{
+app.post("/ss", (req, res) => {
     let sql = "insert into student value(?,?,?)";
-    let data = [req.body.rno,req.body.name,req.body.marks];
-    con.query(sql,data,(err,result)=>{
-        if(err) res.send(err);
-       else  res.send(result);
+    let data = [req.body.rno, req.body.name, req.body.marks];
+    con.query(sql, data, (err, result) => {
+        if (err) res.send(err);
+        else res.send(result);
     });
 });
 
-app.get("/gs",(req,res)=>{
+app.get("/gs", (req, res) => {
     let sql = "select * from student";
-    con.query(sql,(err,result)=>{
-        if(err) res.send(err);
+    con.query(sql, (err, result) => {
+        if (err) res.send(err);
         else res.send(result);
     });
 });
@@ -39,9 +39,9 @@ app.put("/us", (req, res) => {
     });
 });
 
-app.delete("/ds", (req, res) => {
+app.delete("/ds/:rno", (req, res) => {
     let sql = "delete from student where rno = ?";
-    let data = [req.body.rno];
+    let data = [req.params.rno]; // Retrieve rno from the URL
     con.query(sql, data, (err, result) => {
         if (err) 
             res.send(err);
@@ -49,4 +49,7 @@ app.delete("/ds", (req, res) => {
             res.send(result);
     });
 });
-app.listen(9000,()=>{console.log("Ready to serve @ 9000");});
+
+app.listen(9000, () => {
+    console.log("Ready to serve @ 9000");
+});
